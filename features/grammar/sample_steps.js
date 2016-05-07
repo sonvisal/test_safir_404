@@ -48,4 +48,34 @@ module.exports = function () {
 		// server.call('reset'); // server is a connection to the mirror
 		// server.call('reset'); // server is a connection to the mirror
 	});
+
+    this.When(/^I can check image url$/, function(callback) {
+        client.waitForExist('img#zoomimage');
+        var imageurl = browser.elements("img#zoomimage").getAttribute("src");
+        browser.url(imageurl);
+        setTimeout(callback, 30000);
+    });
+
+    this.Then(/^I can see image found or not$/, function() {
+        var title = browser.elements("title").getAttribute("textContent");
+        console.log("title==" + title);
+        if (title == "404 Not Found") {
+            var textnotfound = browser.elements("h1").getAttribute("textContent");
+            var imagenotfound = browser.elements("body > p").getAttribute("textContent");
+            console.log("tile" + imagenotfound);
+
+            if (textnotfound == "Not Found") {
+                var datamatch = imagenotfound.match("(.)(\/upload.*?\.jpg|\/upload.*?\.png)(.)");
+                console.log("image not found ");
+                var data = datamatch[2];
+                console.log("image not found url:"+datamatch);
+            } else {
+                console.log("found image");
+            }
+        } else {
+            console.log("product has image");
+        }
+
+
+    });
 };
