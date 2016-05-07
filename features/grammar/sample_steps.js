@@ -52,7 +52,13 @@ module.exports = function () {
     this.When(/^I can check image url$/, function(callback) {
         client.waitForExist('img#zoomimage');
         var imageurl = browser.elements("img#zoomimage").getAttribute("src");
-        browser.url(imageurl);
+        var imagelocalhost=imageurl.match('/http://54.169.195.127/');
+        if (imagelocalhost){
+            browser.url(imageurl);
+        }else{
+            browser.url("http://localhost:3000"+imagelocalhost);
+        }
+
         setTimeout(callback, 30000);
     });
 
