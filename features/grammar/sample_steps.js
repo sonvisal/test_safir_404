@@ -10,6 +10,7 @@ module.exports = function () {
 	//
 	this.Given(/^I am visite$/, function () {
 		browser.url("http://localhost:3000");
+        client.waitForExist('.blog-quicklink',40000);
 	});
 
 	this.When(/^I am  go page detail "([^"]*)"$/, function(title){
@@ -35,11 +36,11 @@ module.exports = function () {
 		// server.call('reset'); // server is a connection to the mirror
 		// server.call('reset'); // server is a connection to the mirror
 		browser.url("http://localhost:3000/details/"+title);
-        client.waitForExist('.bold',30000);
+        client.waitForExist('.bold',40000);
 	});
 
 	this.Then(/^I should page detail$/, function () {
-		client.waitForExist('.bold',30000);
+		client.waitForExist('.bold',40000);
 		var title = browser.elements(".bold").getAttribute("textContent");
 		if (title){
 			console.log("have product in website");
@@ -51,8 +52,9 @@ module.exports = function () {
 	});
 
     this.When(/^I can check image url$/, function() {
-        client.waitForExist('img#zoomimage',30000);
+        client.waitForExist('img#zoomimage',40000);
         var imageurl = browser.elements("img#zoomimage").getAttribute("src");
+        console.log("url image:"+imageurl);
         var imagelocalhost=imageurl.match('http://54.169.195.127/');
         if (imagelocalhost){
             browser.url(imageurl);
@@ -63,7 +65,7 @@ module.exports = function () {
     });
 
     this.Then(/^I can see image found or not$/, function() {
-        client.waitForExist("title",30000);
+        client.waitForExist("title",40000);
         var title = browser.elements("title").getAttribute("textContent");
         var titleimagelocal = browser.elements("body > pre").getAttribute("style");
         console.log("title==" + title);
