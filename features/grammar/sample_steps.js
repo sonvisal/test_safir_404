@@ -8,11 +8,12 @@ module.exports = function () {
 
 	// Preconditions
 	// -------------
-	this.Given(/^I am visite$/, function () {
+	this.Given(/^I am visite$/, function (callback) {
 		browser.url("http://localhost:3000");
+        setTimeout(callback, 30000);
 	});
 
-	this.When(/^I am  go page detail "([^"]*)"$/, function(title){
+	this.When(/^I am  go page detail "([^"]*)"$/, function(title,callback){
 		title = title.replace(/\s/g, "-");
         title = title.replace(/\%/g, "(percentag)");
         title = title.replace(/\+/g, "(plush)");
@@ -35,11 +36,12 @@ module.exports = function () {
 		// server.call('reset'); // server is a connection to the mirror
 		// server.call('reset'); // server is a connection to the mirror
 		browser.url("http://localhost:3000/details/"+title);
+        setTimeout(callback, 30000);
 	});
 
 	this.Then(/^I should page detail$/, function () {
 		client.waitForExist('.bold');
-		var title = browser.elements(".bold");
+		var title = browser.elements(".bold").getAttribute("textContent");
 		if (title){
 			console.log("have product in website");
 		}else{
@@ -52,7 +54,7 @@ module.exports = function () {
     this.When(/^I can check image url$/, function(callback) {
         client.waitForExist('img#zoomimage');
         var imageurl = browser.elements("img#zoomimage").getAttribute("src");
-        var imagelocalhost=imageurl.match('/http://54.169.195.127/');
+        var imagelocalhost=imageurl.match('http://54.169.195.127/');
         if (imagelocalhost){
             browser.url(imageurl);
         }else{
@@ -62,7 +64,7 @@ module.exports = function () {
         setTimeout(callback, 30000);
     });
 
-    this.Then(/^I can see image found or not$/, function() {
+    this.Then(/^I can see image found or not$/, function(callback) {
         var title = browser.elements("title").getAttribute("textContent");
         console.log("title==" + title);
         if (title == "404 Not Found") {
@@ -81,7 +83,7 @@ module.exports = function () {
         } else {
             console.log("product has image");
         }
-
+        setTimeout(callback, 30000);
 
     });
 };
