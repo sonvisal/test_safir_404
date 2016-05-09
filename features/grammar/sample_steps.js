@@ -7,13 +7,12 @@ module.exports = function () {
 	var url = require('url');
 
 	// Preconditions
-	// -------------
-	this.Given(/^I am visite$/, function (callback) {
+	//
+	this.Given(/^I am visite$/, function () {
 		browser.url("http://localhost:3000");
-        setTimeout(callback, 30000);
 	});
 
-	this.When(/^I am  go page detail "([^"]*)"$/, function(title,callback){
+	this.When(/^I am  go page detail "([^"]*)"$/, function(title){
 		title = title.replace(/\s/g, "-");
         title = title.replace(/\%/g, "(percentag)");
         title = title.replace(/\+/g, "(plush)");
@@ -36,11 +35,11 @@ module.exports = function () {
 		// server.call('reset'); // server is a connection to the mirror
 		// server.call('reset'); // server is a connection to the mirror
 		browser.url("http://localhost:3000/details/"+title);
-        setTimeout(callback, 30000);
+        client.waitForExist('.bold',30000);
 	});
 
 	this.Then(/^I should page detail$/, function () {
-		client.waitForExist('.bold');
+		client.waitForExist('.bold',30000);
 		var title = browser.elements(".bold").getAttribute("textContent");
 		if (title){
 			console.log("have product in website");
@@ -51,39 +50,39 @@ module.exports = function () {
 		// server.call('reset'); // server is a connection to the mirror
 	});
 
-    this.When(/^I can check image url$/, function(callback) {
-        client.waitForExist('img#zoomimage');
+    this.When(/^I can check image url$/, function() {
+        client.waitForExist('img#zoomimage',30000);
         var imageurl = browser.elements("img#zoomimage").getAttribute("src");
         var imagelocalhost=imageurl.match('http://54.169.195.127/');
         if (imagelocalhost){
             browser.url(imageurl);
         }else{
-            browser.url("http://localhost:3000"+imagelocalhost);
+            console.log(imageurl);
+            browser.url(imageurl);
         }
-
-        setTimeout(callback, 30000);
     });
 
-    this.Then(/^I can see image found or not$/, function(callback) {
+    this.Then(/^I can see image found or not$/, function() {
+        client.waitForExist("title",30000);
         var title = browser.elements("title").getAttribute("textContent");
+        var titleimagelocal = browser.elements("body > pre").getAttribute("style");
         console.log("title==" + title);
-        if (title == "404 Not Found") {
-            var textnotfound = browser.elements("h1").getAttribute("textContent");
-            var imagenotfound = browser.elements("body > p").getAttribute("textContent");
-            console.log("tile" + imagenotfound);
+        if (title == "404 Not Found" || titleimagelocal) {
+            // var textnotfound = browser.elements("h1").getAttribute("textContent");
+            // var imagenotfound = browser.elements("body > p").getAttribute("textContent");
+            // console.log("tile" + imagenotfound);
 
-            if (textnotfound == "Not Found") {
-                var datamatch = imagenotfound.match("(.)(\/upload.*?\.jpg|\/upload.*?\.png)(.)");
-                console.log("image not found ");
-                var data = datamatch[2];
-                console.log("image not found url:"+datamatch);
-            } else {
-                console.log("found image");
-            }
+            // if (textnotfound == "Not Found" || titleimagelocal) {
+            //     var datamatch = imagenotfound.match("(.)(\/upload.*?\.jpg|\/upload.*?\.png)(.)");
+            //     console.log("image not found ");
+            //     var data = datamatch[2];
+            //     console.log("image not found url:"+datamatch);
+            // } else {
+            //     console.log("found image");
+            // }
+            console.log("image not found");
         } else {
             console.log("product has image");
         }
-        setTimeout(callback, 30000);
-
     });
 };
