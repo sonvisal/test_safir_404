@@ -68,8 +68,10 @@ module.exports = function () {
         client.waitForExist("title",40000);
         var title = browser.elements("title").getAttribute("textContent");
         var titleimagelocal = browser.elements("body > pre").getAttribute("style");
+        console.log("image local:"+titleimagelocal);
+        var mystyle = "word-wrap: break-word; white-space: pre-wrap;";
         console.log("title==" + title);
-        if (title == "404 Not Found" || titleimagelocal) {
+        if (title == "404 Not Found" || titleimagelocal == mystyle) {
             // var textnotfound = browser.elements("h1").getAttribute("textContent");
             // var imagenotfound = browser.elements("body > p").getAttribute("textContent");
             // console.log("tile" + imagenotfound);
