@@ -75,7 +75,6 @@ module.exports = function () {
             // var textnotfound = browser.elements("h1").getAttribute("textContent");
             // var imagenotfound = browser.elements("body > p").getAttribute("textContent");
             // console.log("tile" + imagenotfound);
-
             // if (textnotfound == "Not Found" || titleimagelocal) {
             //     var datamatch = imagenotfound.match("(.)(\/upload.*?\.jpg|\/upload.*?\.png)(.)");
             //     console.log("image not found ");
