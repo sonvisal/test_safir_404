@@ -15,5 +15,5 @@ cat title_product.txt | while read line
             Then I can see image found or not\n' &>>features/product.feature
 
     done
-    chimp --ddp=http://localhost:3000 --watch
+    chimp --ddp=http://localhost:3000 --watch | egrep -w "404 Not Found | image not found" -A 5 -B 5 > error_image.log
 
